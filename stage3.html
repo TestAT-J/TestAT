@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ESP32 Wifi Phisher | Exam</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .phisher-ui {
+            max-width: 700px;
+            margin: 2rem auto;
+            background: #0f1222;
+            border-radius: 2rem;
+            padding: 2rem;
+            font-family: monospace;
+        }
+        .question {
+            background: #00000033;
+            margin: 1rem 0;
+            padding: 1rem;
+            border-left: 4px solid cyan;
+        }
+        .correct {
+            color: #0f0;
+        }
+        button.submit-final {
+            background: #2c5282;
+        }
+    </style>
+</head>
+<body>
+<div class="phisher-ui">
+    <h2>🎛️ ESP32WiFiPhisher Terminal</h2>
+    <p>Deauth | Captive Portal | Beacon Flood</p>
+    <div id="quizArea">
+        <div class="question">
+            <p><strong>Q1:</strong> Which protocol is used by ESP32WifiPhisher to create a fake access point?</p>
+            <select id="q1">
+                <option value="">--select--</option>
+                <option value="WPA2">WPA2-PSK</option>
+                <option value="Open">Open Network (No encryption)</option>
+                <option value="WEP">WEP</option>
+            </select>
+        </div>
+        <div class="question">
+            <p><strong>Q2:</strong> What is the main attack vector of this tool against WiFi clients?</p>
+            <select id="q2">
+                <option value="">--select--</option>
+                <option value="evil twin">Evil Twin / Rogue AP</option>
+                <option value="bruteforce">Bruteforce handshake</option>
+                <option value="dns spoofing">DNS Spoofing only</option>
+            </select>
+        </div>
+        <div class="question">
+            <p><strong>Q3:</strong> To capture handshake using ESP32, what command is typically used?</p>
+            <select id="q3">
+                <option value="">--select--</option>
+                <option value="pmkid capture">PMKID capture</option>
+                <option value="deauth + sniffer">Deauth & Sniffer</option>
+                <option value="beacon injection">Beacon injection</option>
+            </select>
+        </div>
+        <button id="submitExam" class="submit-final">Submit Answers</button>
+    </div>
+    <div id="examResult"></div>
+</div>
+
+<script>
+    const correctAnswers = {
+        q1: "Open",   // Open Network (ESP32 can create open AP easily)
+        q2: "evil twin",
+        q3: "deauth + sniffer"
+    };
+    const stage3CompletionCode = "STG3_PHISH_MASTER";
+
+    document.getElementById('submitExam').onclick = () => {
+        let q1val = document.getElementById('q1').value;
+        let q2val = document.getElementById('q2').value;
+        let q3val = document.getElementById('q3').value;
+        if (q1val === correctAnswers.q1 && q2val === correctAnswers.q2 && q3val === correctAnswers.q3) {
+            // نجاح المرحلة الثالثة
+            document.getElementById('examResult').innerHTML = '<p class="correct">✅ All answers correct! You passed the final stage.</p>';
+            showFinalCongratulations();
+        } else {
+            document.getElementById('examResult').innerHTML = '<p style="color:red;">❌ Wrong answers. Try again or study ESP32WifiPhisher.</p>';
+        }
+    };
+
+    function showFinalCongratulations() {
+        if (localStorage.getItem('final_overload')) return;
+        localStorage.setItem('final_overload', 'true');
+        const msg = `🎉 CONGRATULATIONS LAZEHK 🎉\nYou passed The Dark Overload entrance exam!\nReply with "Done-T-Test" to finish or "Follow-T-Test" to risk harder challenges.`;
+        const modalFinal = document.createElement('div');
+        modalFinal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);display:flex;align-items:center;justify-content:center;z-index:10001;';
+        modalFinal.innerHTML = `
+            <div style="background:#0d0f1c;padding:2rem;border-radius:2rem;text-align:center;max-width:400px;">
+                <h2>🏆 FINAL STATUS 🏆</h2>
+                <p>${msg}</p>
+                <button id="doneTest">Done-T-Test</button>
+                <button id="followTest">Follow-T-Test</button>
+            </div>
+        `;
+        document.body.appendChild(modalFinal);
+        document.getElementById('doneTest').onclick = () => {
+            alert("You chose to end. Your result has been recorded. Thanks!");
+            modalFinal.remove();
+            // إرسال إشعار للبوت تلقائي (اختياري)
+            fetch('/.netlify/functions/send', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ message: "User selected Done-T-Test after stage3" })
+            });
+        };
+        document.getElementById('followTest').onclick = () => {
+            alert("⚠️ RISK ACCEPTED: further tests may eliminate you. (Demo ends here)");
+            modalFinal.remove();
+        };
+    }
+</script>
+</body>
+</html>
