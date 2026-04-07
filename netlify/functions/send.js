@@ -6,7 +6,7 @@ exports.handler = async (event) => {
 
     const { code, chatId } = JSON.parse(event.body);
     const BOT_TOKEN = '8692314375:AAF7mZ-pVUzEibb6z66J1Mb61wzAzwN4FLQ';
-    const DEFAULT_CHAT_ID = '5828320239';
+    const DEFAULT_CHAT_ID = '1484010221';
     const targetChatId = chatId || DEFAULT_CHAT_ID;
 
     let replyText = '';
