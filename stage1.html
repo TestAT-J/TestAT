@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RouterCorp Admin Panel</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .router-panel {
+            max-width: 500px;
+            margin: 2rem auto;
+            background: #0c0f1c;
+            border-radius: 2rem;
+            padding: 2rem;
+            border: 1px solid #2c3e8f;
+        }
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group label { display: block; margin-bottom: 0.4rem; }
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            background: #010101;
+            border: 1px solid #2f4780;
+            border-radius: 20px;
+            color: white;
+        }
+        button {
+            background: #1f3a6b;
+            width: 100%;
+            padding: 12px;
+            border-radius: 40px;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        .admin-panel { margin-top: 2rem; border-top: 1px solid cyan; padding-top: 1rem; }
+        .ip-item { background: #11151f; padding: 8px; margin: 8px 0; font-family: monospace; }
+    </style>
+</head>
+<body>
+<div class="router-panel">
+    <h2 style="text-align:center;">🔐 RouterCorp Secure Gateway</h2>
+    <p style="text-align:center; font-size:0.8rem;">Enterprise Routers Management</p>
+    <div class="input-group">
+        <label>Username</label>
+        <input type="text" id="username" placeholder="admin">
+    </div>
+    <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="password" placeholder="••••••">
+    </div>
+    <button id="loginBtn">Authenticate</button>
+    <div id="resultArea"></div>
+    <div id="adminZone" style="display:none;">
+        <div class="admin-panel">
+            <h3>⚠️ ADMIN OVERRIDE ⚠️</h3>
+            <p>Compromised IPs & Ports:</p>
+            <div class="ip-item">192.168.1.105:22 (SSH)</div>
+            <div class="ip-item">10.0.0.45:8080 (Proxy)</div>
+            <div class="ip-item">172.16.2.8:445 (SMB)</div>
+            <button id="exfilBtn">Simulate Exfiltration</button>
+            <p id="hackMsg"></p>
+        </div>
+    </div>
+</div>
+
+<script>
+    // منع أدوات المطور
+    (function blockDevTools() {
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                alert("Inspector is disabled in this challenge.");
+                return false;
+            }
+        });
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        setInterval(() => {
+            const before = new Date();
+            debugger;
+            const after = new Date();
+            if (after - before > 100) {
+                document.body.innerHTML = "<h1>CHEATING DETECTED</h1>";
+                window.location.href = "about:blank";
+            }
+        }, 1000);
+    })();
+
+    const validUser = "admin";
+    const validPass = "laze";
+
+    document.getElementById('loginBtn').onclick = () => {
+        let user = document.getElementById('username').value;
+        let pass = document.getElementById('password').value;
+        let isSqlInjection = (user.includes("' OR '1'='1' --") || pass.includes("' OR '1'='1' --"));
+        let isCorrectCreds = (user === validUser && pass === validPass);
+        
+        if (isSqlInjection || isCorrectCreds) {
+            document.getElementById('adminZone').style.display = 'block';
+            document.getElementById('resultArea').innerHTML = '<p style="color:#0f0;">✅ Access Granted. SQL Injection Successful.</p>';
+            // إتمام المرحلة الأولى
+            if (typeof completeStage1 === 'function') {
+                completeStage1();
+            } else {
+                alert("Stage 1 completed. Send STG1_SQL_WIN to @T_Test4_Bot");
+            }
+        } else {
+            document.getElementById('resultArea').innerHTML = '<p style="color:#f66;">❌ Invalid credentials. Access Denied.</p>';
+            document.getElementById('adminZone').style.display = 'none';
+        }
+    };
+
+    document.getElementById('exfilBtn').onclick = () => {
+        document.getElementById('hackMsg').innerHTML = "🔓 Data exfiltrated: creds_dump.txt";
+    };
+</script>
+<script src="js/common.js"></script>
+</body>
+</html>
