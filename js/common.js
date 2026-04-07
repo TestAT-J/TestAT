@@ -36,7 +36,7 @@ async function sendCompletionToBot(completionCode, stageId) {
         const response = await fetch('/.netlify/functions/send', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ code: completionCode, chatId: '5828320239' })
+            body: JSON.stringify({ code: completionCode, chatId: '1484010221' })
         });
         const data = await response.json();
         if (data.ok && data.unlockCode) {
