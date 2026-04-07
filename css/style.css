@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(145deg, #0a0c12 0%, #0f111a 100%);
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    color: #eef5ff;
+    min-height: 100vh;
+    padding: 2rem 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    max-width: 1300px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.hero {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.hero h1 {
+    font-size: 2.8rem;
+    background: linear-gradient(135deg, #c0e0ff, #8a6eff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.stages-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+}
+
+.stage-card {
+    background: rgba(18, 22, 35, 0.75);
+    backdrop-filter: blur(8px);
+    border-radius: 2rem;
+    border: 1px solid rgba(72, 187, 255, 0.2);
+    padding: 1.8rem;
+    width: 320px;
+    transition: 0.25s;
+    box-shadow: 0 20px 35px -15px rgba(0,0,0,0.5);
+}
+
+.stage-card.locked {
+    opacity: 0.65;
+    filter: grayscale(0.1);
+    border-color: #3a3f55;
+}
+
+.stage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.stage-number {
+    background: #1e243b;
+    padding: 6px 14px;
+    border-radius: 60px;
+    font-size: 0.85rem;
+}
+
+.unlock-icon {
+    background: transparent;
+    border: none;
+    color: #b9c7ff;
+    font-size: 1.6rem;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 40px;
+}
+
+.stage-title {
+    font-size: 1.6rem;
+    margin: 1rem 0 0.5rem;
+}
+
+.stage-action button {
+    width: 100%;
+    background: linear-gradient(95deg, #2b2f47, #1f2338);
+    border: none;
+    padding: 12px 0;
+    border-radius: 40px;
+    font-weight: 600;
+    color: #dbeafe;
+    cursor: pointer;
+}
+
+.bot-trigger {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: #1e293b;
+    border-radius: 60px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid #4f6eff;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.bot-trigger img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+@media (max-width: 780px) {
+    body { padding: 1rem; }
+    .stage-card { width: 100%; max-width: 380px; }
+    .hero h1 { font-size: 2rem; }
+}
